@@ -38,19 +38,19 @@
       </FormGroup>
 
       <FormGroup forId="job-company-name" labelText="Job Company Name">
-        <Input v-model="job.company.name" id="job-company-name" />
+        <Input v-model="job.companyName" id="job-company-name" />
       </FormGroup>
 
       <FormGroup forId="job-company-description" labelText="Job Company Description">
-        <Textarea v-model="job.company.description" id="job-company-description" />
+        <Textarea v-model="job.companyDescription" id="job-company-description" />
       </FormGroup>
 
       <FormGroup forId="job-company-email" labelText="Job Company Email">
-        <Input type="email" v-model="job.company.contactEmail" id="job-company-email" />
+        <Input type="email" v-model="job.companyContactEmail" id="job-company-email" />
       </FormGroup>
 
       <FormGroup forId="job-company-phone" labelText="Job Company Phone">
-        <Input v-model="job.company.contactPhone" id="job-company-phone" />
+        <Input v-model="job.companyContactPhone" id="job-company-phone" />
       </FormGroup>
     </Form>
   </FormLayout>
@@ -63,7 +63,6 @@ import { defineComponent } from 'vue'
 import { api } from 'boot/axios'
 import type { Job } from 'components/types/interfaces.ts'
 import { validateDate } from 'src/utils/validate-date'
-import { generateNextId } from 'src/utils/generate-next-id'
 import { showNotification } from 'src/utils/show-notification'
 import { jobTypes, jobExperienceLevels, jobSalaries } from 'components/jobs/job-dropdown-options'
 import Navbar from 'components/ui/Navbar.vue'
@@ -95,10 +94,7 @@ export default defineComponent({
   },
   data() {
     return {
-      job: {
-        postedDate: '',
-        company: {},
-      } as Job,
+      job: {} as Job,
       jobTypes,
       jobExperienceLevels,
       jobSalaries,
@@ -111,64 +107,21 @@ export default defineComponent({
     this.job.salary = '$50K - $60K'
   },
   methods: {
-    async fetchJobs() {
-      try {
-        const response = await api.get('/jobs')
-        return response.data
-      } catch (error) {
-        console.error(error)
-      }
-    },
-
     async addNewJob() {
       try {
         if (!validateDate(this.job.postedDate)) {
           return
         }
 
-        const jobs = await this.fetchJobs()
+        const jobToSave: Job = { ...this.job }
 
-        const nextJobId = generateNextId(jobs, (job: Job) => job.id)
-        const nextCompanyId = generateNextId(jobs, (job: Job) => job.company.id)
-
-        const {
-          title,
-          type,
-          description,
-          location,
-          postedDate,
-          active,
-          experienceLevel,
-          salary,
-          company,
-        } = this.job
-
-        const jobWithGeneratedIds: Job = {
-          id: nextJobId,
-          title,
-          type,
-          description,
-          location,
-          postedDate,
-          active,
-          experienceLevel,
-          salary,
-          company: {
-            id: nextCompanyId,
-            name: company.name,
-            description: company.description,
-            contactEmail: company.contactEmail,
-            contactPhone: company.contactPhone,
-          },
-        }
-
-        await api.post('/jobs', jobWithGeneratedIds, {
+        const response = await api.post('/jobs', jobToSave, {
           headers: {
             'Content-Type': 'application/json',
           },
         })
 
-        showNotification('The job was created successfully!', 'positive', 'custom-notify')
+        showNotification(response.data.message, 'positive', 'custom-notify')
 
         await this.$router.push('/jobs')
       } catch (error) {
