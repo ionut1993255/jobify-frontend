@@ -97,7 +97,7 @@
               <q-separator />
 
               <Heading tag="h4" customHeadingClass="heading-job-company-name">
-                {{ job.company?.name }}
+                {{ job.companyName }}
               </Heading>
 
               <q-separator />
@@ -106,7 +106,7 @@
                 <q-icon name="corporate_fare" class="job-company-description-icon" />
                 <span>Company Description</span>
               </Heading>
-              <p>{{ job.company?.description }}</p>
+              <p>{{ job.companyDescription }}</p>
             </q-card-section>
 
             <q-card-section class="job-company-contact-wrapper">
@@ -114,13 +114,13 @@
                 <q-icon name="email" class="job-company-email-icon" />
                 <span>Email</span>
               </Heading>
-              <p>{{ job.company?.contactEmail }}</p>
+              <p>{{ job.companyContactEmail }}</p>
 
               <Heading tag="h4" customHeadingClass="heading-job-company contact">
                 <q-icon name="phone" class="job-company-phone-icon" />
                 <span>Phone</span>
               </Heading>
-              <p>{{ job.company?.contactPhone }}</p>
+              <p>{{ job.companyContactPhone }}</p>
             </q-card-section>
           </q-card>
         </div>
@@ -151,7 +151,7 @@ export default defineComponent({
   data() {
     return {
       job: {} as Job,
-      jobId: this.$route.params.id ? String(this.$route.params.id) : '',
+      jobId: this.$route.params.id ? Number(this.$route.params.id) : undefined,
       isLoading: true as boolean,
       showModal: false as boolean,
     }
@@ -200,9 +200,9 @@ export default defineComponent({
 
     async deleteJob() {
       try {
-        await api.delete(`/jobs/${this.jobId}`)
+        const response = await api.delete(`/jobs/${this.jobId}`)
 
-        showNotification('The job was deleted successfully!', 'positive', 'custom-notify')
+        showNotification(response.data.message, 'positive', 'custom-notify')
 
         await this.$router.push('/jobs')
       } catch (error) {
@@ -254,7 +254,7 @@ export default defineComponent({
 .job-card {
   padding: 10px 40px;
   border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .job-summary {
