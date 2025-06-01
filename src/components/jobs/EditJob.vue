@@ -40,19 +40,19 @@
       </FormGroup>
 
       <FormGroup forId="job-company-name" labelText="Job Company Name">
-        <Input v-model="job.company.name" id="job-company-name" />
+        <Input v-model="job.companyName" id="job-company-name" />
       </FormGroup>
 
       <FormGroup forId="job-company-description" labelText="Job Company Description">
-        <Textarea v-model="job.company.description" id="job-company-description" />
+        <Textarea v-model="job.companyDescription" id="job-company-description" />
       </FormGroup>
 
       <FormGroup forId="job-company-email" labelText="Job Company Email">
-        <Input type="email" v-model="job.company.contactEmail" id="job-company-email" />
+        <Input type="email" v-model="job.companyContactEmail" id="job-company-email" />
       </FormGroup>
 
       <FormGroup forId="job-company-phone" labelText="Job Company Phone">
-        <Input v-model="job.company.contactPhone" id="job-company-phone" />
+        <Input v-model="job.companyContactPhone" id="job-company-phone" />
       </FormGroup>
     </Form>
   </FormLayout>
@@ -98,11 +98,8 @@ export default defineComponent({
   },
   data() {
     return {
-      job: {
-        postedDate: '',
-        company: {},
-      } as Job,
-      jobId: this.$route.params.id ? String(this.$route.params.id) : '',
+      job: {} as Job,
+      jobId: this.$route.params.id ? Number(this.$route.params.id) : undefined,
       isLoading: true as boolean,
       jobTypes,
       jobExperienceLevels,
@@ -135,38 +132,15 @@ export default defineComponent({
           return
         }
 
-        const {
-          title,
-          type,
-          description,
-          location,
-          postedDate,
-          active,
-          experienceLevel,
-          salary,
-          company,
-        } = this.job
+        const jobToUpdate: Job = { ...this.job }
 
-        const updatedJob: Job = {
-          id: this.jobId,
-          title,
-          type,
-          description,
-          location,
-          postedDate,
-          active,
-          experienceLevel,
-          salary,
-          company: { ...company },
-        }
-
-        await api.patch(`/jobs/${this.jobId}`, updatedJob, {
+        const response = await api.put(`/jobs/${this.jobId}`, jobToUpdate, {
           headers: {
             'Content-Type': 'application/json',
           },
         })
 
-        showNotification('The job was updated successfully!', 'positive', 'custom-notify')
+        showNotification(response.data.message, 'positive', 'custom-notify')
 
         await this.$router.push(`/jobs/${this.jobId}`)
       } catch (error) {
