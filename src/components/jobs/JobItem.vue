@@ -103,9 +103,14 @@ export default defineComponent({
   letter-spacing: 0.7px;
 }
 
-.job-card-info {
+.job-card-info,
+.job-posted-date,
+.job-location {
   display: flex;
   align-items: center;
+}
+
+.job-card-info {
   justify-content: space-between;
   letter-spacing: 0.3px;
 }
