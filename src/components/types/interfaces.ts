@@ -4,16 +4,7 @@ export interface NavLink {
   to: string
 }
 
-interface Company {
-  id: string
-  name: string
-  description: string
-  contactEmail: string
-  contactPhone: string
-}
-
 export interface Job {
-  id: string
   title: string
   type: string
   description: string
@@ -22,7 +13,10 @@ export interface Job {
   active: boolean
   experienceLevel: string
   salary: string
-  company: Company
+  companyName: string
+  companyDescription: string
+  companyContactEmail: string
+  companyContactPhone: string
 }
 
 export interface JobDropdownOption {
