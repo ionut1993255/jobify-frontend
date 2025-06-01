@@ -8,10 +8,11 @@ our platform offers an intuitive interface for managing jobs efficiently.
 
 1. Install the dependencies:
    `npm install`
-2. Start the JSON server:
-   `npm run server`
-3. Open another terminal and run the Quasar development server:
+2. Run the Quasar development server:
    `quasar dev`
+
+> Make sure to clone and install the backend from the following repository:
+[https://github.com/ionut1993255/jobify-backend-spring-boot](https://github.com/ionut1993255/jobify-backend-spring-boot)
 
 ## Key Features
 
@@ -28,8 +29,8 @@ our platform offers an intuitive interface for managing jobs efficiently.
 - **Contact Page:** This page is divided into two equal sections as following:
   `Left card` - contains `Jobify`’s address, email and phone number along with an embedded
   Google Map location.
-  `Right card` - contains a form for users to send messages directly to `Jobify`,
-  with a success notification upon submission.
+  `Right card` - includes a contact form that allows users to send messages directly to `Jobify`.
+  A success notification appears upon submission.
 - **Loading Spinner:** A spinner is displayed while data is loading on the job details, job list and edit job pages.
 - **Notifications:** Confirmation messages appear after adding, editing or deleting a job and when successfully
   submitting the contact form.
@@ -42,29 +43,27 @@ our platform offers an intuitive interface for managing jobs efficiently.
 
 - **components** folder:
 
-  - **home** folder: `Home.vue`
-  - **jobs** folder: `JobItem.vue`, `JobList.vue`, `AddNewJob.vue`, `JobDetails.vue`, `EditJob.vue`,
-    `job-dropdown-options.ts`
-  - **contact** folder: `Contact.vue`
-  - **types/interfaces.ts:** contains interfaces as following: `NavLink`, `Company`, `Job`, `JobDropdownOption`,
-    `ContactForm`
-  - **ui** folder: contains reusable components as following: `ConfirmDeleteModal.vue`, `CustomButton.vue`,
-    `DatePicker.vue`, `Footer.vue`, `Form.vue`, `FormGroup.vue`, `FormLayout.vue`, `Heading.vue`,
-    `Image.vue`,`Input.vue`, `Label.vue`, `Loader.vue`, `Navbar.vue`, `NavLinks.vue`, `Select.vue`,
-    `Textarea.vue`, `Toggler.vue`
+    - **home** folder: `Home.vue`
+    - **jobs** folder: `JobItem.vue`, `JobList.vue`, `AddNewJob.vue`, `JobDetails.vue`, `EditJob.vue`,
+      `job-dropdown-options.ts`
+    - **contact** folder: `Contact.vue`
+    - **types/interfaces.ts:** contains interfaces as following: `NavLink`, `Job`, `JobDropdownOption`,
+      `ContactForm`
+    - **ui** folder: contains reusable components as following: `ConfirmDeleteModal.vue`, `CustomButton.vue`,
+      `DatePicker.vue`, `Footer.vue`, `Form.vue`, `FormGroup.vue`, `FormLayout.vue`, `Heading.vue`,
+      `Image.vue`,`Input.vue`, `Label.vue`, `Loader.vue`, `Navbar.vue`, `NavLinks.vue`, `Select.vue`,
+      `Textarea.vue`, `Toggler.vue`
 
 - **router** folder:
 
-  - **routes.ts** file: contains all the routes of the application
+    - **routes.ts** file: contains all the routes of the application
 
 - **utils** folder: contains files with reusable functions as following:
-  - `generateNextId`: auto-increments job and company IDs
-  - `showNotification`: displays notifications using Quasar's `Notify`
-  - `validateDate`: ensures that a date is chosen
+    - `showNotification`: displays notifications using Quasar's `Notify`
+    - `validateDate`: ensures that a date is chosen
 
 ## API & Data Handling
 
-- **JSON Server:** simulates backend with job data stored in `db/jobs.json`
 - **Environment Variables:** uses `.env` file with `API_URL` configuration
 - **Axios Configuration:** custom instance with `baseURL` from environment variables
 
@@ -75,7 +74,6 @@ our platform offers an intuitive interface for managing jobs efficiently.
 - **TypeScript:** type safety and maintainability
 - **SCSS:** modular styling
 - **Vue Router:** navigation management
-- **JSON Server:** backend simulation
 - **Axios:** API requests
 - **Google Maps API:** location display
 
